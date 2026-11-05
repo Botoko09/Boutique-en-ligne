@@ -21,7 +21,11 @@ Application Next.js où des vendeurs publient des téléphones et où les client
 
 ## Rendu
 
-À compléter par Samuel : page SSG, page ISR, page SSR, chacune justifiée.
+- **SSG — `/`** : la page d’accueil est pré-rendue statiquement; son contenu actuel est une sélection éditoriale.
+- **ISR — `/catalogue`** : la page est revalidée au plus tôt toutes les 60 secondes (`revalidate = 60`). La liste reste vide jusqu’à la connexion de la base de données.
+- **SSR — `/annonces/[slug]`** : `force-dynamic` demande un rendu serveur à chaque requête. La fiche reste vide tant que les annonces ne peuvent pas être chargées depuis la base.
+
+Les pages ISR et SSR illustrent leur stratégie de rendu, mais leur contenu métier reste à raccorder lorsque la base de données sera disponible.
 
 ## Déploiement
 
