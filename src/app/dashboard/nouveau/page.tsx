@@ -17,8 +17,9 @@ export default function NouvelArticlePage() {
   const champ =
     "w-full rounded-lg border border-slate-300 bg-white p-3 text-[#0F172A]";
 
-  return (
-    <main className="mx-auto max-w-xl p-4 text-[#0F172A]">
+ return (
+    <main className="flex-1 bg-[#F8FAFC] p-4 text-[#0F172A]">
+      <div className="mx-auto max-w-xl">
       <h1 className="mb-6 text-2xl font-bold text-[#1D4ED8]">
         Publier un article
       </h1>
@@ -47,8 +48,9 @@ export default function NouvelArticlePage() {
         >
           Publier
         </button>
-        {message && <p role="status">{message}</p>}
+              {message && <p role="status">{message}</p>}
       </form>
+      </div>
     </main>
   );
 }
