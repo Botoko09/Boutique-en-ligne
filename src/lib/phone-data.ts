@@ -37,7 +37,7 @@ export const homePhoneHighlights: HomepagePhone[] = [
     price: 210000,
     storage: "256 Go",
     condition: "Neuf",
-    imageUrl: "https://images.unsplash.com/photo-1598327105666-5e1a9c2ca83a?auto=format&fit=crop&w=1000&q=85",
+    imageUrl: "https://images.unsplash.com/photo-1605236453806-6ff36851218e?auto=format&fit=crop&w=1000&q=85",
     imageAlt: "Smartphone moderne photographié de près",
   },
   {
