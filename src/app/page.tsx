@@ -38,7 +38,7 @@ export default function Home() {
           <div className="hero-visual">
             <div className="hero-glow" aria-hidden="true" />
             <div className="hero-product-image">
-              <image
+              <Image
                 src={heroPhone.imageUrl}
                 alt={heroPhone.imageAlt}
                 fill
