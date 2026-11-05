@@ -1,121 +1,129 @@
 import Image from "next/image";
 import Link from "next/link";
+import { PhoneCard } from "@/components/phone-card";
+import { homePhoneHighlights } from "@/lib/phone-data";
 
 export const dynamic = "force-static";
 
 const categories = [
-  { name: "Chaussures homme", detail: "Des modèles pour chaque occasion", category: "chaussures-homme", tone: "category-shoes" },
-  { name: "Talons", detail: "Élégance au quotidien et en soirée", category: "talons", tone: "category-heels" },
-  { name: "Vêtements", detail: "Des pièces pour composer votre style", category: "vetements", tone: "category-clothing" },
-  { name: "Accessoires", detail: "La touche finale de votre tenue", category: "accessoires", tone: "category-accessories" },
+  { name: "Apple", detail: "iPhone pour tous les usages", brand: "Apple", tone: "category-apple" },
+  { name: "Samsung", detail: "La technologie Galaxy", brand: "Samsung", tone: "category-samsung" },
+  { name: "Tecno", detail: "L'innovation accessible", brand: "Tecno", tone: "category-tecno" },
+  { name: "Xiaomi", detail: "La performance au quotidien", brand: "Xiaomi", tone: "category-xiaomi" },
 ];
 
 export default function Home() {
+  const heroPhone = homePhoneHighlights[0];
+
   return (
     <>
       <section className="hero">
         <div className="container hero-inner">
           <div className="hero-copy">
-            <span className="eyebrow">MbokaShop · Mode & accessoires</span>
-            <h1>Le style qui<br />vous ressemble.</h1>
+            <span className="eyebrow">La tech, tout près de vous</span>
+            <h1>Le bon téléphone.<br />Le bon choix.</h1>
             <p>
-              Découvrez bientôt notre sélection de vêtements, chaussures et
-              accessoires pour toutes vos envies.
+              Découvrez une sélection de smartphones fiables, proposés par des
+              vendeurs près de chez vous.
             </p>
             <div className="hero-cta">
-              <Link className="button button-accent" href="/catalogue">Explorer la boutique</Link>
-              <Link className="button button-ghost" href="#categories">Nos catégories</Link>
+              <Link className="button button-accent" href="#telephones">Découvrir la sélection</Link>
+              <Link className="button button-ghost" href="#engagements">Nos engagements</Link>
             </div>
             <div className="hero-note">
               <span className="hero-note-mark" aria-hidden="true">✓</span>
-              Une boutique pensée pour votre style
+              Des annonces vérifiées, un contact direct
             </div>
           </div>
           <div className="hero-visual">
             <div className="hero-glow" aria-hidden="true" />
-            <div className="hero-fashion-image">
+            <div className="hero-product-image">
               <Image
-                src="/fashion-editorial.svg"
-                alt="Illustration de vêtements, chaussures et accessoires de mode"
+                src={heroPhone.imageUrl}
+                alt={heroPhone.imageAlt}
                 fill
                 priority
-                sizes="(max-width: 760px) 90vw, 42vw"
+                sizes="(max-width: 760px) 72vw, 42vw"
                 className="hero-image"
               />
             </div>
             <div className="hero-product-label">
-              <span className="eyebrow">Bientôt chez MbokaShop</span>
-              <strong>Mode, chaussures & accessoires</strong>
+              <span className="eyebrow">Sélection Mboka</span>
+              <strong>{heroPhone.name}</strong>
+              <span>{heroPhone.price.toLocaleString("fr-FR")} FCFA</span>
             </div>
-            <div className="hero-sticker" aria-label="Une sélection de mode">
-              Votre<br />style
+            <div className="hero-sticker" aria-label="Smartphones sélectionnés avec soin">
+              Sélection<br />du moment
             </div>
           </div>
         </div>
       </section>
 
-      <section id="categories" className="container section category-section" aria-labelledby="categories-title">
+      <section className="container section category-section" aria-labelledby="categories-title">
         <div className="section-heading">
           <div>
-            <span className="eyebrow">À chacun son style</span>
-            <h2 id="categories-title">Explorez nos catégories</h2>
+            <span className="eyebrow">À chacun son téléphone</span>
+            <h2 id="categories-title">Explorez les marques</h2>
           </div>
-          <Link className="text-link" href="/catalogue">Voir la boutique <span aria-hidden="true">→</span></Link>
+          <Link className="text-link" href="#telephones">Voir la sélection <span aria-hidden="true">→</span></Link>
         </div>
         <div className="category-grid">
-          {categories.map(({ name, detail, category, tone }) => (
-            <Link
-              className={`category-card ${tone}`}
-              href={`/catalogue?categorie=${category}`}
-              key={category}
-            >
+          {categories.map((category) => (
+            <article className={`category-card ${category.tone}`} key={category.brand}>
               <span className="category-orbit" aria-hidden="true" />
-              <span className="category-name">{name}</span>
-              <span className="category-detail">{detail}</span>
-              <span className="category-arrow" aria-hidden="true">→</span>
-            </Link>
+              <span className="category-name">{category.name}</span>
+              <span className="category-detail">{category.detail}</span>
+            </article>
           ))}
         </div>
       </section>
 
-      <section className="container section" aria-labelledby="catalogue-empty-title">
-        <div className="empty-state">
-          <span className="eyebrow">La boutique se prépare</span>
-          <h2 id="catalogue-empty-title">Notre sélection arrive bientôt</h2>
-          <p>Les articles seront publiés ici dès que le catalogue sera connecté.</p>
-          <Link className="button button-accent" href="/catalogue">Découvrir la boutique</Link>
+      <section id="telephones" className="section featured-section" aria-labelledby="featured-title">
+        <div className="container">
+          <div className="section-heading">
+            <div>
+              <span className="eyebrow">Choisis pour vous</span>
+              <h2 id="featured-title">Nos téléphones du moment</h2>
+            </div>
+            <span className="featured-note">Notre sélection du moment</span>
+          </div>
+          <div className="phone-grid">
+            {homePhoneHighlights.slice(0, 4).map((phone) => (
+              <PhoneCard key={phone.slug} phone={phone} />
+            ))}
+          </div>
         </div>
       </section>
 
       <section className="container section">
         <div className="promise-banner">
           <div>
-            <span className="eyebrow">La mode au quotidien</span>
-            <h2>Composez un style<br />qui vous ressemble.</h2>
+            <span className="eyebrow">Simple et local</span>
+            <h2>Un achat plus proche,<br />en toute confiance.</h2>
           </div>
           <p>
-            Des chaussures aux accessoires, MbokaShop réunira les pièces
-            essentielles pour vos tenues.
+            Trouvez le téléphone qu’il vous faut et échangez directement avec
+            son vendeur pour convenir des détails.
           </p>
-          <Link className="button button-light" href="/catalogue">Voir les catégories</Link>
+          <Link className="button button-light" href="#telephones">Voir la sélection</Link>
         </div>
       </section>
 
-      <section id="engagements" className="container section benefits" aria-label="Les atouts MbokaShop">
+      <section id="engagements" className="container section benefits" aria-label="Les avantages MbokaShop">
         <article className="benefit">
           <span className="benefit-number">01</span>
-          <h3>Des styles variés</h3>
-          <p>Vêtements, chaussures et accessoires réunis dans une même boutique.</p>
+          <h3>Des annonces claires</h3>
+          <p>Prix, état et caractéristiques affichés simplement pour comparer en un coup d’œil.</p>
         </article>
         <article className="benefit">
           <span className="benefit-number">02</span>
-          <h3>Des détails utiles</h3>
-          <p>Les tailles, les prix et les informations des articles seront présentés clairement.</p>
+          <h3>Un contact direct</h3>
+          <p>Posez vos questions au vendeur et organisez votre achat sans détour.</p>
         </article>
         <article className="benefit">
           <span className="benefit-number">03</span>
-          <h3>Une sélection pour vous</h3>
-          <p>Retrouvez des pièces pour compléter vos tenues au fil des nouveautés.</p>
+          <h3>Des choix pour tous</h3>
+          <p>Parcourez des marques et des gammes variées, adaptées à votre budget.</p>
         </article>
       </section>
     </>
