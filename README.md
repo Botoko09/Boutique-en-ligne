@@ -1,6 +1,6 @@
-# Boutique de téléphones en ligne
+# MbokaShop — Mode, chaussures et accessoires
 
-Application Next.js où des vendeurs publient des téléphones et où les clients les consultent, puis contactent le vendeur sur WhatsApp. Livrable S22 (Akieni Academy), Groupe 5.
+Application Next.js de boutique en ligne dédiée aux vêtements, chaussures et accessoires. Livrable S22 (Akieni Academy), Groupe 5.
 
 ## Équipe et répartition
 
@@ -21,11 +21,12 @@ Application Next.js où des vendeurs publient des téléphones et où les client
 
 ## Rendu
 
-- **SSG — `/`** : la page d’accueil est pré-rendue statiquement; son contenu actuel est une sélection éditoriale.
-- **ISR — `/catalogue`** : la page est revalidée au plus tôt toutes les 60 secondes (`revalidate = 60`). La liste reste vide jusqu’à la connexion de la base de données.
-- **SSR — `/annonces/[slug]`** : `force-dynamic` demande un rendu serveur à chaque requête. La fiche reste vide tant que les annonces ne peuvent pas être chargées depuis la base.
+- **SSG — `/`** : la page d’accueil de la boutique de mode est pré-rendue statiquement.
+- **ISR — `/catalogue`** : la page est revalidée au plus tôt toutes les 60 secondes (`revalidate = 60`). Le catalogue reste vide jusqu’à la connexion de la base de données.
+- **SSR — `/produit/[slug]`** : `force-dynamic` demande un rendu serveur à chaque requête. La fiche produit reste vide tant que les données ne peuvent pas être chargées depuis la base.
+- **Images — `next/image`** : l’illustration locale de la page d’accueil est affichée avec des dimensions adaptatives et chargée en priorité.
 
-Les pages ISR et SSR illustrent leur stratégie de rendu, mais leur contenu métier reste à raccorder lorsque la base de données sera disponible.
+Les pages ISR et SSR illustrent leur stratégie de rendu, mais les produits réels restent à raccorder lorsque la base de données sera disponible.
 
 ## Déploiement
 
