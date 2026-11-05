@@ -15,8 +15,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "MbokaShop | Mode, chaussures et accessoires",
-  description: "Découvrez bientôt la sélection MbokaShop de vêtements, chaussures et accessoires.",
+  title: "MbokaShop | Smartphones en FCFA",
+  description: "Découvrez des smartphones proposés par des vendeurs près de chez vous.",
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
