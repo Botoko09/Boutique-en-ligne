@@ -47,4 +47,4 @@ Pour que le bouton WhatsApp fonctionne, le téléphone du vendeur doit être enr
 
 ## Audit Lighthouse
 
-À compléter par Samuel : scores mobile et capture.
+À compléter par Samuel : 
