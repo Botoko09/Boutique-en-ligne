@@ -158,23 +158,54 @@ h2,
 
 .mobile-menu-toggle {
   display: none;
-  width: 44px;
-  height: 44px;
+  width: 48px;
+  height: 48px;
   place-items: center;
-  gap: 4px;
+  padding: 0;
   border: 1px solid var(--line);
-  border-radius: 12px;
+  border-radius: 14px;
   background: var(--surface);
   color: var(--navy);
   cursor: pointer;
+  transition: background-color 160ms ease, border-color 160ms ease, color 160ms ease;
 }
 
-.mobile-menu-toggle span {
+.mobile-menu-toggle:hover {
+  border-color: var(--navy);
+  background: var(--pale-blue);
+}
+
+.mobile-menu-toggle:focus-visible {
+  outline: 3px solid var(--coral);
+  outline-offset: 3px;
+}
+
+.mobile-menu-icon {
   display: block;
-  width: 18px;
-  height: 2px;
-  border-radius: 2px;
-  background: currentColor;
+  width: 24px;
+  height: 24px;
+  overflow: visible;
+}
+
+.mobile-menu-icon path {
+  stroke: currentColor;
+  stroke-linecap: round;
+  stroke-width: 2;
+  transition: transform 180ms ease, opacity 180ms ease;
+}
+
+.mobile-menu-toggle.is-open .menu-icon-top {
+  transform: translateY(6px) rotate(45deg);
+  transform-origin: center;
+}
+
+.mobile-menu-toggle.is-open .menu-icon-middle {
+  opacity: 0;
+}
+
+.mobile-menu-toggle.is-open .menu-icon-bottom {
+  transform: translateY(-6px) rotate(-45deg);
+  transform-origin: center;
 }
 
 .main-nav {

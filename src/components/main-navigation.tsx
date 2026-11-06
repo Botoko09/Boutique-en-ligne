@@ -16,16 +16,23 @@ export function MainNavigation() {
   return (
     <>
       <button
-        className="mobile-menu-toggle"
+        className={`mobile-menu-toggle${isOpen ? " is-open" : ""}`}
         type="button"
         aria-label={isOpen ? "Fermer le menu" : "Ouvrir le menu"}
         aria-expanded={isOpen}
         aria-controls="primary-navigation"
         onClick={() => setIsOpen((open) => !open)}
       >
-        <span aria-hidden="true" />
-        <span aria-hidden="true" />
-        <span aria-hidden="true" />
+        <svg
+          className="mobile-menu-icon"
+          viewBox="0 0 24 24"
+          fill="none"
+          aria-hidden="true"
+        >
+          <path className="menu-icon-top" d="M4 6h16" />
+          <path className="menu-icon-middle" d="M4 12h16" />
+          <path className="menu-icon-bottom" d="M4 18h16" />
+        </svg>
       </button>
       <nav
         className={`main-nav${isOpen ? " is-open" : ""}`}
