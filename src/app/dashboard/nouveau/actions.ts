@@ -14,15 +14,23 @@ export async function publierArticle(formData: FormData) {
   const marque = String(formData.get("marque") ?? "").trim();
   const description = String(formData.get("description") ?? "").trim();
   const prix = Number(formData.get("prix"));
+  const image = String(formData.get("image") ?? "");
 
   if (!titre || !marque || !description || !Number.isInteger(prix) || prix <= 0) {
     return { ok: false, erreur: "Vérifie les champs du formulaire." };
   }
 
+  // Image compressée côté navigateur (JPEG, 600 000 caractères maximum)
+  if (image && (!image.startsWith("data:image/jpeg;base64,") || image.length > 600_000)) {
+    return { ok: false, erreur: "La photo est invalide ou trop lourde." };
+  }
+
   await prisma.article.create({
-    data: { titre, marque, description, prix, vendeurId },
+    data: { titre, marque, description, prix, vendeurId, imageUrl: image || null },
   });
 
   revalidatePath("/dashboard");
+  revalidatePath("/catalogue");
+  revalidatePath("/");
   return { ok: true, erreur: "" };
 }
