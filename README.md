@@ -10,7 +10,7 @@ Application Next.js où des vendeurs publient des téléphones et où les client
 | NDONGALA Dreche | Auth | Auth.js, middleware, protection des routes | À compléter |
 | HOLANDAIS MBEMBA Scintillé Grâciel | Features 1 | Catalogue, fiche article, bouton Contacter | À compléter |
 | AKIANA Danielle Benicia | Features 2 | Publication d'article, tableau de bord vendeur | akianadanielleb-ops |
-| AKOMBO Samuel | Rendu & perf | SSG, ISR, SSR, next/image, audit Lighthouse | À compléter |
+| AKOMBO Samuel | Rendu & perf | SSG, ISR, SSR, next/image, audit Lighthouse | samuelakombo0-bit |
 
 ## Lancer le projet en local
 
