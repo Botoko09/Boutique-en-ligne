@@ -8,10 +8,7 @@ export function SiteHeader() {
       <header className="site-header">
         <div className="container header-inner">
           <Link className="logo" href="/" aria-label="MbokaShop, accueil">Mboka<span>Shop</span></Link>
-          <nav className="main-nav" aria-label="Navigation principale">
-            <Link href="#telephones">Les téléphones</Link>
-            <Link href="/#engagements">Nos engagements</Link>
-          </nav>
+          <MainNavigation />
         </div>
       </header>
     </>
