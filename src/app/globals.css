@@ -865,6 +865,18 @@ h2,
   max-width: 190px;
 }
 
+.catalogue-controls input,
+.catalogue-controls select {
+  border: 1px solid var(--line);
+  background: var(--surface);
+  color: var(--ink);
+}
+
+.catalogue-controls input:focus-visible,
+.catalogue-controls select:focus-visible {
+  border-color: var(--navy);
+}
+
 .catalogue-grid {
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 22px;
@@ -941,6 +953,18 @@ h2,
 
 .db-product-details .product-price {
   font-size: 1.5rem;
+}
+
+.product-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.contact-unavailable {
+  flex-basis: 100%;
+  margin: 0;
+  color: var(--muted);
 }
 
 .skeleton {

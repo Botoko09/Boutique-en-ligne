@@ -31,9 +31,11 @@ La migration initiale crée les tables `Vendeur`, `Article` et `Contact`. La pag
 ## Rendu
 
 - **SSG — `/`** : la page d’accueil est pré-rendue statiquement; elle présente une sélection éditoriale.
-- **ISR — `/catalogue`** : la page charge les articles depuis PostgreSQL et est revalidée au plus tôt toutes les 60 secondes (`revalidate = 60`).
-- **SSR — `/produit/[id]`** : la fiche est chargée depuis PostgreSQL et rendue à chaque requête (`force-dynamic`).
+- **ISR — `/catalogue`** : la page charge les articles depuis PostgreSQL et est revalidée au plus tôt toutes les 60 secondes (`revalidate = 60`). La recherche, le filtre par marque (`?marque=Apple`) et le tri par prix sont disponibles sur le catalogue.
+- **SSR — `/produit/[id]`** : la fiche affiche les informations de l’article et son vendeur à chaque requête (`force-dynamic`); le bouton de contact ouvre une conversation WhatsApp avec un message prérempli.
 - **Images — `next/image`** : les images des téléphones sont affichées avec des dimensions adaptatives et l’image principale est chargée en priorité.
+
+Pour que le bouton WhatsApp fonctionne, le téléphone du vendeur doit être enregistré au format international, avec `+` ou `00` suivi de l’indicatif pays (par exemple `+243...`).
 
 ## Déploiement
 

@@ -5,6 +5,24 @@ import { prisma } from "@/lib/prisma";
 
 export const dynamic = "force-dynamic";
 
+function getWhatsAppUrl(phone: string, title: string) {
+  const trimmedPhone = phone.trim();
+  const hasPlusPrefix = trimmedPhone.startsWith("+");
+  const hasInternationalDialPrefix = trimmedPhone.startsWith("00");
+  const digits = trimmedPhone.replace(/\D/g, "");
+  const internationalNumber = hasInternationalDialPrefix ? digits.slice(2) : digits;
+
+  if (
+    (!hasPlusPrefix && !hasInternationalDialPrefix) ||
+    !/^[1-9]\d{6,14}$/.test(internationalNumber)
+  ) {
+    return null;
+  }
+
+  const message = `Bonjour, je suis intéressé(e) par le téléphone « ${title} ». Est-il toujours disponible ?`;
+  return `https://wa.me/${internationalNumber}?text=${encodeURIComponent(message)}`;
+}
+
 export default async function ProductPage({
   params,
 }: {
@@ -26,12 +44,20 @@ export default async function ProductPage({
       description: true,
       prix: true,
       imageUrl: true,
+      vendeur: {
+        select: {
+          nom: true,
+          telephone: true,
+        },
+      },
     },
   });
 
   if (!article) {
     notFound();
   }
+
+  const whatsappUrl = getWhatsAppUrl(article.vendeur.telephone, article.titre);
 
   return (
     <main className="container page-container">
@@ -64,9 +90,26 @@ export default async function ProductPage({
             {article.prix.toLocaleString("fr-FR")} <span>FCFA</span>
           </p>
           <p>{article.description}</p>
-          <Link className="button button-ghost" href="/catalogue">
-            Retour au catalogue
-          </Link>
+          <div className="product-actions">
+            {whatsappUrl ? (
+              <a
+                className="button button-accent"
+                href={whatsappUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label={`Contacter ${article.vendeur.nom} sur WhatsApp (ouvre un nouvel onglet)`}
+              >
+                Contacter {article.vendeur.nom} sur WhatsApp
+              </a>
+            ) : (
+              <p className="contact-unavailable">
+                Le contact WhatsApp du vendeur n’est pas disponible pour le moment.
+              </p>
+            )}
+            <Link className="button button-ghost" href="/catalogue">
+              Retour au catalogue
+            </Link>
+          </div>
         </div>
       </article>
     </main>

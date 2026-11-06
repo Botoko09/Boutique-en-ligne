@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { ArticleCard } from "@/components/article-card";
+import { CatalogueBrowser } from "@/components/catalogue-browser";
 import { prisma } from "@/lib/prisma";
 
 export const revalidate = 60;
@@ -25,11 +25,7 @@ export default async function CataloguePage() {
       </header>
 
       {articles.length > 0 ? (
-        <div className="phone-grid" aria-label="Téléphones disponibles">
-          {articles.map((article) => (
-            <ArticleCard key={article.id} article={article} />
-          ))}
-        </div>
+        <CatalogueBrowser articles={articles} />
       ) : (
         <section className="empty-state" aria-labelledby="catalogue-empty-title">
           <h2 id="catalogue-empty-title">Aucun téléphone disponible pour le moment</h2>
