@@ -33,4 +33,4 @@ Application Next.js où des vendeurs publient des téléphones et où les client
 
 ## Audit Lighthouse
 
-À compléter par Samuel : scores mobile et capture.
+À compléter par Samuel : <img width="1183" height="840" alt="Capture d&#39;écran 2026-11-06 083126" src="https://github.com/user-attachments/assets/158921c0-58ce-465f-8307-6c085a722655" />
