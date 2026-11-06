@@ -1,11 +1,50 @@
 import Link from "next/link";
+import { prisma } from "@/lib/prisma";
+import { getVendeurId } from "./vendeur-connecte";
 
 // Rendu SSR : les données sont propres à chaque vendeur connecté
 export const dynamic = "force-dynamic";
 
-// Ajoute un point tous les 3 chiffres : 3500000 -> 3.500.000
 function formaterNombre(n: number) {
   return String(n).replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+}
+
+async function chargerStats(vendeurId: number) {
+  const ilYaSeptJours = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000);
+
+  const [articles, contacts, contactsSemaine, stock, top] = await Promise.all([
+    prisma.article.count({ where: { vendeurId } }),
+    prisma.contact.count({ where: { vendeurId } }),
+    prisma.contact.count({
+      where: { vendeurId, createdAt: { gte: ilYaSeptJours } },
+    }),
+    prisma.article.aggregate({ where: { vendeurId }, _sum: { prix: true } }),
+    prisma.contact.groupBy({
+      by: ["articleId"],
+      where: { vendeurId },
+      _count: { articleId: true },
+      orderBy: { _count: { articleId: "desc" } },
+      take: 1,
+    }),
+  ]);
+
+  let topArticle = "Aucun contact";
+  if (top.length > 0) {
+    const article = await prisma.article.findUnique({
+      where: { id: top[0].articleId },
+    });
+    if (article) {
+      topArticle = `${article.titre} (${top[0]._count.articleId} contacts)`;
+    }
+  }
+
+  return {
+    articles,
+    contacts,
+    contactsSemaine,
+    valeurStock: stock._sum.prix ?? 0,
+    topArticle,
+  };
 }
 
 function Carte({
@@ -29,16 +68,17 @@ function Carte({
 }
 
 export default async function DashboardPage() {
-  // TODO : remplacer par de vraies requêtes Prisma pour le vendeur connecté
-  const stats = {
-    articles: 4,
-    contacts: 12,
-    // TODO : nécessite un champ « vendu » dans le schéma (à demander à Steven)
-    vendus: 2,
-    contactsSemaine: 5,
-    valeurStock: 1250000,
-    topArticle: "iPhone 13 (6 contacts)",
-  };
+  const vendeurId = await getVendeurId();
+
+  if (!vendeurId) {
+    return (
+      <main className="min-h-[calc(100vh-8rem)] flex-1 bg-[#F8FAFC] p-4 text-[#0F172A]">
+        <p className="mx-auto max-w-3xl">Aucun vendeur trouvé.</p>
+      </main>
+    );
+  }
+
+  const stats = await chargerStats(vendeurId);
 
   return (
     <main className="min-h-[calc(100vh-8rem)] flex-1 bg-[#F8FAFC] p-4 text-[#0F172A]">
@@ -50,7 +90,6 @@ export default async function DashboardPage() {
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
           <Carte titre="Articles publiés" valeur={String(stats.articles)} />
           <Carte titre="Contacts reçus" valeur={String(stats.contacts)} />
-          <Carte titre="Articles vendus" valeur={String(stats.vendus)} />
           <Carte
             titre="Contacts cette semaine"
             valeur={String(stats.contactsSemaine)}

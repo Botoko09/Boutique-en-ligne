@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { publierArticle } from "./actions";
 
 // Ajoute un point tous les 3 chiffres : 33000 -> 33.000
 function formaterPrix(valeur: string) {
@@ -19,15 +20,26 @@ export default function NouvelArticlePage() {
     setApercu(fichier ? URL.createObjectURL(fichier) : null);
   }
 
-  function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    const data = Object.fromEntries(new FormData(e.currentTarget));
-    // TODO : remplacer par une Server Action Prisma (création de l'Article)
-    console.log("Article à publier :", data);
-    setMessage("Article enregistré (données factices).");
-    e.currentTarget.reset();
-    setApercu(null);
-    setPrix("");
+    const form = e.currentTarget;
+    const donnees = new FormData(form);
+
+    // On n'envoie que les champs texte (la photo n'est pas encore enregistrée)
+    const envoi = new FormData();
+    for (const champ of ["titre", "marque", "description", "prix"]) {
+      envoi.set(champ, String(donnees.get(champ) ?? ""));
+    }
+
+    const resultat = await publierArticle(envoi);
+    if (resultat.ok) {
+      setMessage("Article publié avec succès.");
+      form.reset();
+      setApercu(null);
+      setPrix("");
+    } else {
+      setMessage(resultat.erreur);
+    }
   }
 
   const champ =
