@@ -246,6 +246,35 @@ h2,
   color: white;
 }
 
+.main-nav .nav-logout-link {
+  min-height: 44px;
+  padding: 10px 14px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: transparent;
+  color: var(--ink);
+  font-size: 0.94rem;
+  font-weight: 600;
+  transition: background-color 160ms ease, border-color 160ms ease;
+}
+
+.main-nav .nav-logout-link:hover {
+  border-color: var(--navy);
+  background: var(--pale-blue);
+}
+
+.main-nav .nav-logout-link:focus-visible {
+  outline: 3px solid var(--coral);
+  outline-offset: 3px;
+}
+
+.nav-logout-error {
+  flex-basis: 100%;
+  margin: 0;
+  color: var(--coral-dark);
+  font-size: 0.85rem;
+}
+
 .header-search {
   position: relative;
   flex: 0 1 255px;
@@ -1292,6 +1321,12 @@ h2,
     justify-content: center;
     margin-top: 8px;
     padding: 10px 16px;
+  }
+
+  .main-nav .nav-logout-link {
+    width: 100%;
+    margin-top: 8px;
+    border-radius: 12px;
   }
 
   .hero-inner {

@@ -1,18 +1,34 @@
 "use client";
 
 import Link from "next/link";
+import { signOut } from "next-auth/react";
 import { useState } from "react";
 
-const links = [
+const links: { href: string; label: string; className?: string }[] = [
   { href: "/", label: "Accueil" },
   { href: "/catalogue", label: "Catalogue" },
   { href: "/#telephones", label: "Les téléphones" },
   { href: "/#engagements", label: "Nos engagements" },
-  { href: "/login", label: "Connexion vendeur", className: "nav-login-link" },
 ];
 
-export function MainNavigation() {
+export function MainNavigation({ userName }: { userName?: string | null }) {
   const [isOpen, setIsOpen] = useState(false);
+  const [logoutError, setLogoutError] = useState("");
+  const accountLink = {
+    href: userName ? "/dashboard" : "/login",
+    label: userName || "Connexion vendeur",
+    className: "nav-login-link",
+  };
+
+  async function handleSignOut() {
+    setLogoutError("");
+
+    try {
+      await signOut({ redirectTo: "/" });
+    } catch {
+      setLogoutError("La déconnexion a échoué. Réessayez.");
+    }
+  }
 
   return (
     <>
@@ -40,7 +56,7 @@ export function MainNavigation() {
         id="primary-navigation"
         aria-label="Navigation principale"
       >
-        {links.map((link) => (
+        {[...links, accountLink].map((link) => (
           <Link
             key={link.href}
             className={link.className}
@@ -50,6 +66,20 @@ export function MainNavigation() {
             {link.label}
           </Link>
         ))}
+        {userName && (
+          <button
+            className="nav-logout-link"
+            type="button"
+            onClick={handleSignOut}
+          >
+            Se déconnecter
+          </button>
+        )}
+        {logoutError && (
+          <p className="nav-logout-error" role="alert">
+            {logoutError}
+          </p>
+        )}
       </nav>
     </>
   );
