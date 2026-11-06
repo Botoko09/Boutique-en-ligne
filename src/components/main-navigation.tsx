@@ -8,6 +8,7 @@ const links = [
   { href: "/catalogue", label: "Catalogue" },
   { href: "/#telephones", label: "Les téléphones" },
   { href: "/#engagements", label: "Nos engagements" },
+  { href: "/login", label: "Connexion vendeur", className: "nav-login-link" },
 ];
 
 export function MainNavigation() {
@@ -40,7 +41,12 @@ export function MainNavigation() {
         aria-label="Navigation principale"
       >
         {links.map((link) => (
-          <Link key={link.href} href={link.href} onClick={() => setIsOpen(false)}>
+          <Link
+            key={link.href}
+            className={link.className}
+            href={link.href}
+            onClick={() => setIsOpen(false)}
+          >
             {link.label}
           </Link>
         ))}
