@@ -1,8 +1,21 @@
 import Link from "next/link";
+import { CatalogueBrowser } from "@/components/catalogue-browser";
+import { prisma } from "@/lib/prisma";
 
 export const revalidate = 60;
 
-export default function CataloguePage() {
+export default async function CataloguePage() {
+  const articles = await prisma.article.findMany({
+    select: {
+      id: true,
+      titre: true,
+      marque: true,
+      prix: true,
+      imageUrl: true,
+    },
+    orderBy: { createdAt: "desc" },
+  });
+
   return (
     <main className="container page-container">
       <header className="page-intro">

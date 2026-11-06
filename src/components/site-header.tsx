@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { MainNavigation } from "@/components/main-navigation";
 
 export function SiteHeader() {
   return (

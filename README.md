@@ -15,18 +15,27 @@ Application Next.js où des vendeurs publient des téléphones et où les client
 ## Lancer le projet en local
 
 1. `git clone https://github.com/Botoko09/Boutique-en-ligne.git`
-2. `npm install`
+2. `npm install` (génère le client Prisma automatiquement)
 3. Créer un fichier `.env` avec `DATABASE_URL` (fournie par Steven, jamais dans le dépôt)
 4. `npm run dev`, puis ouvrir http://localhost:3000
 
+## Base de données
+
+Le projet utilise Prisma 7 et PostgreSQL. Le client Prisma est généré depuis `prisma/schema.prisma`; `DATABASE_URL` est lue depuis `.env` par `prisma7.config.ts`.
+
+- `npm run db:generate` : générer le client après une modification du schéma.
+- `npm run db:status` : vérifier l’état des migrations sans modifier la base.
+
+La migration initiale crée les tables `Vendeur`, `Article` et `Contact`. La page ISR accède à la base pendant le build et lors de sa revalidation; la base doit donc être joignable dans l’environnement de build et d’exécution. Vérifier l’état avec `npm run db:status` avant toute application de migration.
+
 ## Rendu
 
-- **SSG — `/`** : la page d’accueil est pré-rendue statiquement; son contenu actuel est une sélection éditoriale.
-- **ISR — `/catalogue`** : la page est revalidée au plus tôt toutes les 60 secondes (`revalidate = 60`). Le catalogue reste vide jusqu’à la connexion de la base de données.
-- **SSR — `/produit/[slug]`** : `force-dynamic` demande un rendu serveur à chaque requête. La fiche reste vide tant que les annonces ne peuvent pas être chargées depuis la base.
+- **SSG — `/`** : la page d’accueil est pré-rendue statiquement; elle présente une sélection éditoriale.
+- **ISR — `/catalogue`** : la page charge les articles depuis PostgreSQL et est revalidée au plus tôt toutes les 60 secondes (`revalidate = 60`). La recherche, le filtre par marque (`?marque=Apple`) et le tri par prix sont disponibles sur le catalogue.
+- **SSR — `/produit/[id]`** : la fiche affiche les informations de l’article et son vendeur à chaque requête (`force-dynamic`); le bouton de contact ouvre une conversation WhatsApp avec un message prérempli.
 - **Images — `next/image`** : les images des téléphones sont affichées avec des dimensions adaptatives et l’image principale est chargée en priorité.
 
-Les pages ISR et SSR illustrent leur stratégie de rendu, mais leur contenu métier reste à raccorder lorsque la base de données sera disponible.
+Pour que le bouton WhatsApp fonctionne, le téléphone du vendeur doit être enregistré au format international, avec `+` ou `00` suivi de l’indicatif pays (par exemple `+243...`).
 
 ## Déploiement
 
