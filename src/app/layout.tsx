@@ -3,6 +3,8 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import Image from "next/image";
 import { Geist, Geist_Mono } from "next/font/google";
+import { SiteFooter } from "@/components/site-footer";
+import { SiteHeader } from "@/components/site-header";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -16,8 +18,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Mboka Shop",
-  description: "Trouvez un téléphone et contactez le vendeur sur WhatsApp",
+  title: "MbokaShop | Smartphones en FCFA",
+  description: "Découvrez des smartphones proposés par des vendeurs près de chez vous.",
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
