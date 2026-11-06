@@ -1,11 +1,39 @@
 "use client";
 
 import { useState } from "react";
+import { publierArticle } from "./actions";
 
 // Ajoute un point tous les 3 chiffres : 33000 -> 33.000
 function formaterPrix(valeur: string) {
   const chiffres = valeur.replace(/\D/g, "");
   return chiffres.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+}
+
+// Réduit l'image à 800 px maximum et la convertit en JPEG léger
+function compresserImage(fichier: File, tailleMax = 800): Promise<string> {
+  return new Promise((resolve, reject) => {
+    const url = URL.createObjectURL(fichier);
+    const img = new Image();
+    img.onload = () => {
+      const echelle = Math.min(1, tailleMax / Math.max(img.width, img.height));
+      const canvas = document.createElement("canvas");
+      canvas.width = Math.round(img.width * echelle);
+      canvas.height = Math.round(img.height * echelle);
+      const ctx = canvas.getContext("2d");
+      URL.revokeObjectURL(url);
+      if (!ctx) {
+        reject(new Error("Canvas indisponible"));
+        return;
+      }
+      ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+      resolve(canvas.toDataURL("image/jpeg", 0.7));
+    };
+    img.onerror = () => {
+      URL.revokeObjectURL(url);
+      reject(new Error("Image illisible"));
+    };
+    img.src = url;
+  });
 }
 
 export default function NouvelArticlePage() {
@@ -19,15 +47,36 @@ export default function NouvelArticlePage() {
     setApercu(fichier ? URL.createObjectURL(fichier) : null);
   }
 
-  function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    const data = Object.fromEntries(new FormData(e.currentTarget));
-    // TODO : remplacer par une Server Action Prisma (création de l'Article)
-    console.log("Article à publier :", data);
-    setMessage("Article enregistré (données factices).");
-    e.currentTarget.reset();
-    setApercu(null);
-    setPrix("");
+    const form = e.currentTarget;
+    const donnees = new FormData(form);
+
+    const envoi = new FormData();
+    for (const champ of ["titre", "marque", "description", "prix"]) {
+      envoi.set(champ, String(donnees.get(champ) ?? ""));
+    }
+
+    // Photo : compressée ici, puis envoyée en texte
+    const fichier = (donnees.get("photo") as File | null) ?? null;
+    if (fichier && fichier.size > 0) {
+      try {
+        envoi.set("image", await compresserImage(fichier));
+      } catch {
+        setMessage("La photo n'a pas pu être lue. Essaie une autre image.");
+        return;
+      }
+    }
+
+    const resultat = await publierArticle(envoi);
+    if (resultat.ok) {
+      setMessage("Article publié avec succès.");
+      form.reset();
+      setApercu(null);
+      setPrix("");
+    } else {
+      setMessage(resultat.erreur);
+    }
   }
 
   const champ =

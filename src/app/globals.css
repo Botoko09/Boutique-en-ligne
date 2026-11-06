@@ -156,6 +156,58 @@ h2,
   color: var(--coral);
 }
 
+.mobile-menu-toggle {
+  display: none;
+  width: 48px;
+  height: 48px;
+  place-items: center;
+  padding: 0;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: var(--surface);
+  color: var(--navy);
+  cursor: pointer;
+  transition: background-color 160ms ease, border-color 160ms ease, color 160ms ease;
+}
+
+.mobile-menu-toggle:hover {
+  border-color: var(--navy);
+  background: var(--pale-blue);
+}
+
+.mobile-menu-toggle:focus-visible {
+  outline: 3px solid var(--coral);
+  outline-offset: 3px;
+}
+
+.mobile-menu-icon {
+  display: block;
+  width: 24px;
+  height: 24px;
+  overflow: visible;
+}
+
+.mobile-menu-icon path {
+  stroke: currentColor;
+  stroke-linecap: round;
+  stroke-width: 2;
+  transition: transform 180ms ease, opacity 180ms ease;
+}
+
+.mobile-menu-toggle.is-open .menu-icon-top {
+  transform: translateY(6px) rotate(45deg);
+  transform-origin: center;
+}
+
+.mobile-menu-toggle.is-open .menu-icon-middle {
+  opacity: 0;
+}
+
+.mobile-menu-toggle.is-open .menu-icon-bottom {
+  transform: translateY(-6px) rotate(-45deg);
+  transform-origin: center;
+}
+
 .main-nav {
   display: flex;
   flex: 1;
@@ -178,6 +230,49 @@ h2,
 .main-nav a:hover {
   border-color: var(--coral);
   color: var(--coral-dark);
+}
+
+.main-nav .nav-login-link {
+  padding: 10px 18px;
+  border: 0;
+  border-radius: 999px;
+  background: var(--coral);
+  color: white;
+  transition: background-color 160ms ease;
+}
+
+.main-nav .nav-login-link:hover {
+  background: var(--coral-dark);
+  color: white;
+}
+
+.main-nav .nav-logout-link {
+  min-height: 44px;
+  padding: 10px 14px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: transparent;
+  color: var(--ink);
+  font-size: 0.94rem;
+  font-weight: 600;
+  transition: background-color 160ms ease, border-color 160ms ease;
+}
+
+.main-nav .nav-logout-link:hover {
+  border-color: var(--navy);
+  background: var(--pale-blue);
+}
+
+.main-nav .nav-logout-link:focus-visible {
+  outline: 3px solid var(--coral);
+  outline-offset: 3px;
+}
+
+.nav-logout-error {
+  flex-basis: 100%;
+  margin: 0;
+  color: var(--coral-dark);
+  font-size: 0.85rem;
 }
 
 .header-search {
@@ -1220,6 +1315,18 @@ h2,
 
   .main-nav a:last-child {
     border-bottom: 0;
+  }
+
+  .main-nav .nav-login-link {
+    justify-content: center;
+    margin-top: 8px;
+    padding: 10px 16px;
+  }
+
+  .main-nav .nav-logout-link {
+    width: 100%;
+    margin-top: 8px;
+    border-radius: 12px;
   }
 
   .hero-inner {
