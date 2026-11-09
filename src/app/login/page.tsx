@@ -1,3 +1,18 @@
+<<<<<<< HEAD
+export default function LoginPage() {
+  return (
+    <main className="container page-container">
+      <header className="page-intro">
+        <span className="eyebrow">Espace vendeur</span>
+        <h1>Connexion vendeur</h1>
+      </header>
+      <section className="empty-state" aria-labelledby="login-placeholder-title">
+        <h2 id="login-placeholder-title">La connexion arrive bientôt</h2>
+        <p>
+          L’authentification vendeur n’est pas encore disponible. Réessayez
+          après son intégration.
+        </p>
+=======
 
 "use client";
 
@@ -173,6 +188,7 @@ export default function LoginPage() {
             Accès réservé aux vendeurs autorisés.
           </p>
         </div>
+>>>>>>> e6007ba5ed874c2736f85d0bdde873b8da084105
       </section>
     </main>
   );
